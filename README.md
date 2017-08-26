@@ -1,0 +1,2 @@
+# GraphEditor
+DFA, NFA, NFA EPSILON, REGEX
