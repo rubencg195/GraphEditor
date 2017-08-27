@@ -1,4 +1,4 @@
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class ValidationError(Exception):
     def __init__(self, message, errors):
@@ -50,9 +50,9 @@ class NotValidWordError(Exception):
         showMsg(message)
 
 def showMsg(text):
-  msgBox = QtGui.QMessageBox( None )
-  msgBox.setIcon( QtGui.QMessageBox.Information )
+  msgBox = QtWidgets.QMessageBox( None )
+  msgBox.setIcon( QtWidgets.QMessageBox.Information )
   msgBox.setText( text )
-  msgBox.addButton( QtGui.QMessageBox.Yes )
-  msgBox.setDefaultButton( QtGui.QMessageBox.Yes ) 
+  msgBox.addButton( QtWidgets.QMessageBox.Yes )
+  msgBox.setDefaultButton( QtWidgets.QMessageBox.Yes ) 
   ret = msgBox.exec_()

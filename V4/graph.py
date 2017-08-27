@@ -1,9 +1,10 @@
 import sys
 import json
 from random import randint
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
+import traceback
 
-from fysom import Fysom
+# from fysom import Fysom
 # from automata.fa.dfa import DFA
 # from automata.fa.nfa import NFA
 
@@ -15,7 +16,7 @@ from DFA   import DFA
 from NFA   import NFA
 from NFA_e import NFAe
 
-from grammaregex import print_tree, match_tree, find_tokens, verify_pattern, PatternSyntaxException
+# from grammaregex import print_tree, match_tree, find_tokens, verify_pattern, PatternSyntaxException
 import AutomataLib
 
 currNode = None
@@ -35,11 +36,11 @@ symbols = {'0', '1'}
 alphabet = "0,1"
 # alphabet = "0,1,2,3,4,5,6,7"
 # testFilename = "/home/ruben/Desktop/Computer Theory/V3/examples/DFA"
-testFilename = "/home/ruben/Desktop/Computer Theory/V3/examples/cantidad 1 y 0 impar V3"
+testFilename = "./examples/cantidad 1 y 0 impar V3"
 # testFilename = "/home/ruben/Desktop/Computer Theory/V3/examples/NFA_e"
 
 logger = logging.Logger('catch_all')
-app = QtGui.QApplication(sys.argv)
+app = QtWidgets.QApplication(sys.argv)
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -51,11 +52,11 @@ try:
         return QtGui.QApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
     def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+        return QtWidgets.QApplication.translate(context, text, disambig)
 
-class Canvas(QtGui.QWidget):
+class Canvas(QtWidgets.QWidget):
     def __init__(self, parent):
-      QtGui.QWidget.__init__(self, parent)
+      QtWidgets.QWidget.__init__(self, parent)
 
     def paintEvent(self, event):
 
@@ -99,26 +100,26 @@ class Canvas(QtGui.QWidget):
             
         qp.end()
         
-class Ui_MainWindow(QtGui.QWidget):
+class Ui_MainWindow(QtWidgets.QWidget):
     def __init__(self):
-      QtGui.QWidget.__init__(self)
+      QtWidgets.QWidget.__init__(self)
     def setupUi(self):
       self.setObjectName(_fromUtf8("MainWindow"))
       self.resize(1500, 900)
-      self.menu = QtGui.QWidget(self)
+      self.menu = QtWidgets.QWidget(self)
       self.menu.setGeometry(QtCore.QRect(10, 10, 251, 900))
       self.menu.setObjectName(_fromUtf8("menu"))
-      self.pushButton_edit = QtGui.QPushButton(self.menu)
+      self.pushButton_edit = QtWidgets.QPushButton(self.menu)
       self.pushButton_edit.setGeometry(QtCore.QRect(10, 536, 221, 51))
       self.pushButton_edit.setObjectName(_fromUtf8("pushButton_edit"))
-      self.pushButton_delete = QtGui.QPushButton(self.menu)
+      self.pushButton_delete = QtWidgets.QPushButton(self.menu)
       self.pushButton_delete.setGeometry(QtCore.QRect(10, 596, 221, 51))
       self.pushButton_delete.setObjectName(_fromUtf8("pushButton_delete"))
-      self.pushButton_add = QtGui.QPushButton(self.menu)
+      self.pushButton_add = QtWidgets.QPushButton(self.menu)
       self.pushButton_add.setGeometry(QtCore.QRect(10, 476, 221, 51))
       self.pushButton_add.setObjectName(_fromUtf8("pushButton_add"))
 
-      self.comboBox_type = QtGui.QComboBox(self.menu)
+      self.comboBox_type = QtWidgets.QComboBox(self.menu)
       self.comboBox_type.setGeometry(QtCore.QRect(10, 30, 221, 51))
       self.comboBox_type.setObjectName(_fromUtf8("comboBox_type"))
       self.comboBox_type.addItem(_fromUtf8(""))
@@ -126,48 +127,48 @@ class Ui_MainWindow(QtGui.QWidget):
       self.comboBox_type.addItem(_fromUtf8(""))
       self.comboBox_type.addItem(_fromUtf8(""))
 
-      self.comboBox_edit_type = QtGui.QComboBox(self.menu)
+      self.comboBox_edit_type = QtWidgets.QComboBox(self.menu)
       self.comboBox_edit_type.setGeometry(QtCore.QRect(10, 90, 221, 51))
       self.comboBox_edit_type.setObjectName(_fromUtf8("comboBox_type"))
       self.comboBox_edit_type.addItem("NODE")
       self.comboBox_edit_type.addItem("CONNECTION")
 
-      self.label_con = QtGui.QLabel("Node Connections", self.menu)
+      self.label_con = QtWidgets.QLabel("Node Connections", self.menu)
       self.label_con.setGeometry(QtCore.QRect(90, 150, 68, 17))
-      self.comboBox_con = QtGui.QComboBox(self.menu)
+      self.comboBox_con = QtWidgets.QComboBox(self.menu)
       self.comboBox_con.setGeometry(QtCore.QRect(10, 190, 221, 51))
-      self.pushButton_deselect = QtGui.QPushButton("Deselect", self.menu)
+      self.pushButton_deselect = QtWidgets.QPushButton("Deselect", self.menu)
       self.pushButton_deselect.setGeometry(QtCore.QRect(10, 250, 221, 61))
       self.pushButton_deselect.setObjectName(_fromUtf8("pushButton_con"))
 
-      self.label = QtGui.QLabel(self.menu)
+      self.label = QtWidgets.QLabel(self.menu)
       self.label.setGeometry(QtCore.QRect(100, 390, 68, 17))
       self.label.setObjectName(_fromUtf8("label"))
-      self.lineEdit_value = QtGui.QLineEdit(self.menu)
+      self.lineEdit_value = QtWidgets.QLineEdit(self.menu)
       self.lineEdit_value.setGeometry(QtCore.QRect(20, 346, 211, 41))
       self.lineEdit_value.setObjectName(_fromUtf8("lineEdit_value"))
-      self.label_2 = QtGui.QLabel(self.menu)
+      self.label_2 = QtWidgets.QLabel(self.menu)
       self.label_2.setGeometry(QtCore.QRect(90, 320, 68, 17))
       self.label_2.setObjectName(_fromUtf8("label_2"))
 
-      self.pushButton_save = QtGui.QPushButton(self.menu)
+      self.pushButton_save = QtWidgets.QPushButton(self.menu)
       self.pushButton_save.setGeometry(QtCore.QRect(10, 746, 221, 61))
       self.pushButton_save.setObjectName(_fromUtf8("pushButton_save"))
 
-      self.pushButton_load = QtGui.QPushButton("Load",self.menu)
+      self.pushButton_load = QtWidgets.QPushButton("Load",self.menu)
       self.pushButton_load.setGeometry(QtCore.QRect(10, 810, 221, 61))
       self.pushButton_load.setObjectName(_fromUtf8("pushButton_load"))
 
-      self.label_3 = QtGui.QLabel(self.menu)
+      self.label_3 = QtWidgets.QLabel(self.menu)
       self.label_3.setGeometry(QtCore.QRect(40, 670, 161, 20))
       self.label_3.setObjectName(_fromUtf8("label_3"))
-      self.lineEdit_filename = QtGui.QLineEdit(self.menu)
+      self.lineEdit_filename = QtWidgets.QLineEdit(self.menu)
       self.lineEdit_filename.setGeometry(QtCore.QRect(10, 700, 221, 41))
       self.lineEdit_filename.setObjectName(_fromUtf8("lineEdit_filename"))
-      self.label_4 = QtGui.QLabel(self.menu)
+      self.label_4 = QtWidgets.QLabel(self.menu)
       self.label_4.setGeometry(QtCore.QRect(100, 10, 68, 17))
       self.label_4.setObjectName(_fromUtf8("label_4"))
-      self.comboBox_node_type = QtGui.QComboBox(self.menu)
+      self.comboBox_node_type = QtWidgets.QComboBox(self.menu)
       self.comboBox_node_type.setGeometry(QtCore.QRect(10, 410, 221, 51))
       self.comboBox_node_type.setObjectName(_fromUtf8("comboBox_node_type"))
       self.comboBox_node_type.addItem(_fromUtf8(""))
@@ -177,27 +178,27 @@ class Ui_MainWindow(QtGui.QWidget):
       self.canvas.setGeometry(QtCore.QRect(270, 10, 1221, 831))
       self.canvas.setObjectName(_fromUtf8("canvas"))
 
-      self.lineEdit_eval = QtGui.QLineEdit(self.canvas)
+      self.lineEdit_eval = QtWidgets.QLineEdit(self.canvas)
       self.lineEdit_eval.setGeometry(QtCore.QRect(300, 10, 100, 40))
       self.lineEdit_eval.setObjectName(_fromUtf8("lineEdit_eval"))
 
-      self.label_eval = QtGui.QLabel(self.canvas)
+      self.label_eval = QtWidgets.QLabel(self.canvas)
       self.label_eval.setGeometry(QtCore.QRect(200, 10, 80, 40))
       self.label_eval.setObjectName(_fromUtf8("label_eval"))
 
-      self.pushButton_eval = QtGui.QPushButton("Evaluate",self.canvas)
+      self.pushButton_eval = QtWidgets.QPushButton("Evaluate",self.canvas)
       self.pushButton_eval.setGeometry(QtCore.QRect(750, 10, 100, 40))
       self.pushButton_eval.setObjectName(_fromUtf8("pushButton_eval"))
 
-      self.label_regex = QtGui.QLabel("REGEX", self.canvas)
+      self.label_regex = QtWidgets.QLabel("REGEX", self.canvas)
       self.label_regex.setGeometry(QtCore.QRect(450, 10, 100, 40))
       self.label_regex.setObjectName(_fromUtf8("label_regex"))
 
-      self.lineEdit_regex = QtGui.QLineEdit("(0|(1(01*(00)*0)*1)*)*",self.canvas)
+      self.lineEdit_regex = QtWidgets.QLineEdit("(0|(1(01*(00)*0)*1)*)*",self.canvas)
       self.lineEdit_regex.setGeometry(QtCore.QRect(500, 10, 200, 40))
       self.lineEdit_regex.setObjectName(_fromUtf8("lineEdit_regex"))
 
-      self.pushButton_conv = QtGui.QPushButton("Convert",self.canvas)
+      self.pushButton_conv = QtWidgets.QPushButton("Convert",self.canvas)
       self.pushButton_conv.setGeometry(QtCore.QRect(850, 10, 100, 40))
       self.pushButton_conv.setObjectName(_fromUtf8("pushButton_conv"))
 
@@ -310,8 +311,8 @@ class Ui_MainWindow(QtGui.QWidget):
          except:
           print("err del node from nodeList")        
 
-      dlg = QtGui.QFileDialog()
-      dlg.setFileMode(QtGui.QFileDialog.AnyFile)
+      dlg = QtWidgets.QFileDialog()
+      dlg.setFileMode(QtWidgets.QFileDialog.AnyFile)
       # dlg.setFilter("Text files (*.*)")
 
       filenames = []
@@ -489,9 +490,9 @@ class Connection():
       del self
       print( "Con List: ", len(conList))
         
-class Node(QtGui.QLabel):
+class Node(QtWidgets.QLabel):
     def __init__(self, parent, first, final, img,name):
-        QtGui.QLabel.__init__(self, parent)
+        QtWidgets.QLabel.__init__(self, parent)
         super(Node, self).__init__(parent=parent)
         self.connections = []
         self.deleted = False
@@ -502,13 +503,13 @@ class Node(QtGui.QLabel):
         self.move(50,50)
         self.show()
 
-        self.selected = QtGui.QLabel(parent)
+        self.selected = QtWidgets.QLabel(parent)
         self.selected.setScaledContents(True)
         self.selected.setPixmap(QtGui.QPixmap(_fromUtf8("select.png")))
         self.selected.setGeometry(QtCore.QRect(0, 0, 80, 80))
         self.selected.move(35,35)
 
-        self.label = QtGui.QLabel(name, parent);
+        self.label = QtWidgets.QLabel(name, parent);
         self.label.move(45,100)
         self.label.show()
         
@@ -654,15 +655,15 @@ def connectNodes(nextNode):
     print( "Seleccione un nodo")
 
 def showMsg(text):
-  msgBox = QtGui.QMessageBox( mainWidget )
-  msgBox.setIcon( QtGui.QMessageBox.Information )
+  msgBox = QtWidgets.QMessageBox( mainWidget )
+  msgBox.setIcon( QtWidgets.QMessageBox.Information )
   msgBox.setText( text )
 
   # msgBox.setInformativeText( "Do you really want?" )
   # msgBox.addButton( QtGui.QMessageBox.No )
-  msgBox.addButton( QtGui.QMessageBox.Yes )
+  msgBox.addButton( QtWidgets.QMessageBox.Yes )
 
-  msgBox.setDefaultButton( QtGui.QMessageBox.Yes ) 
+  msgBox.setDefaultButton( QtWidgets.QMessageBox.Yes ) 
   ret = msgBox.exec_()
 
   # if ret == QtGui.QMessageBox.Yes:
@@ -764,21 +765,25 @@ def evaluateREGEX():
   showMsg(msg)
 
 def evaluate():
-  print("Events "+mainWidget.comboBox_type.currentText() )
-  get_events()
-  evalValue = str(mainWidget.lineEdit_eval.text())
-  automata = None
-  if   mainWidget.comboBox_type.currentText() == "DFA":
-    automata = createDFA()
-  elif mainWidget.comboBox_type.currentText() == "NFA":
-    automata = createNFA()
-  elif mainWidget.comboBox_type.currentText() == "NFA EPSILON":
-    automata = createNFAe()
-  elif mainWidget.comboBox_type.currentText() == "REGEX":
-    evaluateREGEX()
-    return
-  msg = "Evaluating " + evalValue + " last state " + automata.match( evalValue ).label 
-  showMsg(msg)
+  try:
+    print("Events "+mainWidget.comboBox_type.currentText() )
+    get_events()
+    evalValue = str(mainWidget.lineEdit_eval.text())
+    automata = None
+    if   mainWidget.comboBox_type.currentText() == "DFA":
+      automata = createDFA()
+    elif mainWidget.comboBox_type.currentText() == "NFA":
+      automata = createNFA()
+    elif mainWidget.comboBox_type.currentText() == "NFA EPSILON":
+      automata = createNFAe()
+    elif mainWidget.comboBox_type.currentText() == "REGEX":
+      evaluateREGEX()
+      return
+    msg = "Evaluating " + evalValue + " last state " + automata.match( evalValue ).label 
+    showMsg(msg)
+  except Exception as e:
+    showMsg("ERROR "+ str(e) )
+    print(traceback.format_exc())
 
 def convert():
   print("CONVERT "+mainWidget.comboBox_type.currentText() )
